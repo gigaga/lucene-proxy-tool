@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("lucene_proxy_tool")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Lucene Proxy Tool")]
+[assembly: AssemblyDescription("Lucene Proxy Tool")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("lucene_proxy_tool")]
+[assembly: AssemblyCompany("SQLI")]
+[assembly: AssemblyProduct("Lucene Proxy Tool")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
