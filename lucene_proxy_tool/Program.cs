@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Web.Script.Serialization;
 
@@ -43,12 +44,18 @@ namespace lucene_proxy_tool
 
         }
 
+        [DllImport("kernel32.dll")]
+        static extern bool AttachConsole(int dwProcessId);
+        private const int ATTACH_PARENT_PROCESS = -1;
 
         static void Main(string[] args)
         {
+            // redirect console output to parent process;
+            // must be before any calls to Console.WriteLine()
+            AttachConsole(ATTACH_PARENT_PROCESS);
+
             AppDomain.CurrentDomain.AssemblyResolve += new ResolveEventHandler(CurrentDomain_AssemblyResolve);
 
-            
             String indexFolder=null;
             String field = null;
             String token = null;
@@ -100,6 +107,8 @@ namespace lucene_proxy_tool
             {
                 System.IO.File.WriteAllLines(@output, new string[] { jsonResult });
             }
+
+            System.Environment.Exit(0);
         }
 
         static Result search(String indexFolder, String field, String token, int maxResult)
