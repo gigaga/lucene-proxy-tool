@@ -8,6 +8,7 @@ using Lucene.Net.Store;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Web.Script.Serialization;
 
@@ -23,8 +24,31 @@ namespace lucene_proxy_tool
             public int nbHits { get; set; }
         }
 
+
+        static System.Reflection.Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
+
+        {
+
+            string dllName = args.Name.Contains(',') ? args.Name.Substring(0, args.Name.IndexOf(',')) : args.Name.Replace(".dll", "");
+
+            dllName = dllName.Replace(".", "_");
+
+            if (dllName.EndsWith("_resources")) return null;
+
+            System.Resources.ResourceManager rm = new System.Resources.ResourceManager(typeof(Program).Namespace + ".Properties.Resources", System.Reflection.Assembly.GetExecutingAssembly());
+
+            byte[] bytes = (byte[])rm.GetObject(dllName);
+
+            return System.Reflection.Assembly.Load(bytes);
+
+        }
+
+
         static void Main(string[] args)
         {
+            AppDomain.CurrentDomain.AssemblyResolve += new ResolveEventHandler(CurrentDomain_AssemblyResolve);
+
+            
             String indexFolder=null;
             String field = null;
             String token = null;
